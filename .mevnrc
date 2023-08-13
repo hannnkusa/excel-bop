@@ -1,0 +1,8 @@
+{
+  "name": "excel-bop",
+  "template": "Default",
+  "isConfigured": {
+    "client": false,
+    "server": false
+  }
+}
