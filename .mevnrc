@@ -2,7 +2,7 @@
   "name": "excel-bop",
   "template": "Default",
   "isConfigured": {
-    "client": false,
-    "server": false
+    "client": true,
+    "server": true
   }
 }
