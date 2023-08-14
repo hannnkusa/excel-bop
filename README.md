@@ -9,11 +9,19 @@ Aplikasi Sederhana sebagai solusi untuk pendataan buku, dimana saat ini pendataa
 **Server:** Node, Express, Mongoose(Used MongoDB)
 
 
+## Documentation
+
+- [Vue 2](https://v2.vuejs.org/v2/guide/)
+- [AntDesign](https://1x.antdv.com/docs/vue/introduce/)
+- [Vue XLSX](https://vue-xlsx.netlify.app/guide/#installation)
+- [Express](https://expressjs.com/)
+- [Mongoose](https://mongoosejs.com/)
+
 ## Features
 
 - Simple CRUD
 - Import Excel
-- Search and Filter Data
+- Advanced Search and Filter Data
 
 
 ## Installation
@@ -43,3 +51,7 @@ Pada mevn serve anda diberikan 2 pilihan untuk melakukan serve terhadap client a
 ```bash
   mevn serve
 ```
+
+Lalu dimana npm install nya? saat melakukan mevn serve, mevn akan melakukan npm install sebelum melakukan serve pada client/server. (Perlu diingat, bahwa hal ini berlaku sekali di saat pertama kali dijalankan)
+
+Jika ingin menambahkan package sendiri, maka bisa langsung ke directory client/server untuk menambahkan package yang diinginkan.
