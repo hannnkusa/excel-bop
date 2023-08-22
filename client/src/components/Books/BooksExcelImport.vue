@@ -1,22 +1,28 @@
 <template>
     <div>
-        <a-modal v-model="isModalActiveLocal" title="Import Dari Excel" :width="700">
+        <a-modal v-model="isModalActiveLocal" title="Import Dari Excel" :width="1000">
             <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-form-model-item label="No">
-                    <a-input placeholder="Masukkan Nomor BOP" v-model="form.no" />
-                </a-form-model-item>
-                <a-form-model-item label="Judul">
-                    <a-input placeholder="Masukkan Judul Buku" v-model="form.judul" />
-                </a-form-model-item>
-                <a-form-model-item label="Penulis">
-                    <a-input placeholder="Masukkan Nama Penulis" v-model="form.penulis" />
-                </a-form-model-item>
-                <a-form-model-item label="Tahun Terbit">
-                    <a-input placeholder="Masukkan Tahun Terbit" v-model="form.tahun_terbit" />
-                </a-form-model-item>
-                <a-form-model-item label="Penerbit">
-                    <a-input placeholder="Masukkan Penerbit" v-model="form.penerbit" />
-                </a-form-model-item>
+                <h3>Import XLSX</h3>
+                <a-upload name="file" @before-upload="onChange" accept=".xls,.xlsx">
+                    <a-button> <a-icon type="upload" /> Click to Upload </a-button>
+                </a-upload>
+                <xlsx-read :file="file">
+                    <!-- <xlsx-table class="vue-excel-table" /> -->
+                    <xlsx-json :options="{ header: 1 }">
+                        <template #default="{ collection }">
+                            <a-row :gutter="16">
+                                <a-col class="gutter-row" :span="6">
+                                    Judul BOP :
+                                </a-col>
+                                <a-col class="gutter-row" :span="6">
+                                    {{ collection[0].join('') }}
+                                </a-col>
+                            </a-row>
+                            <div>
+                            </div>
+                        </template>
+                    </xlsx-json>
+                </xlsx-read>
             </a-form-model>
             <template slot="footer">
                 <a-button key="back" @click="handleCancel">
@@ -35,7 +41,7 @@ export default {
     props: {
         dataToEdit: {
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         isModalActive: {
             type: Boolean,
@@ -55,6 +61,7 @@ export default {
                 tahun_terbit: '',
                 penerbit: '',
             },
+            file: null,
         };
     },
     computed: {
@@ -70,6 +77,10 @@ export default {
         },
     },
     methods: {
+        onChange(event) {
+            this.file = event.target.files ? event.target.files[0] : null;
+            return false;
+        },
         showModal() {
             this.visible = true;
         },

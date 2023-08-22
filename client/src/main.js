@@ -23,8 +23,10 @@ import router from './router'
 import axios from 'axios'
 
 import './scss/app.scss';
+import './plugins/vue-excel'
 
 Vue.use(Antd);
+
 Vue.prototype.$axios = axios.create({
   baseURL: process.env.VUE_BASE_URL || 'http://localhost:4000/api'
 })

@@ -4,7 +4,11 @@ const BookModel = require("../models/Book");
 const cors = require("cors");
 
 // CORS OPTIONS
-var whitelist = ["http://localhost:4200", "http://localhost:8000", "http://localhost:3002"];
+var whitelist = [
+  "http://localhost:4200",
+  "http://localhost:8000",
+  "http://localhost:3002",
+];
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (whitelist.indexOf(req.header("Origin")) !== -1) {
@@ -19,18 +23,16 @@ var corsOptionsDelegate = function (req, callback) {
 };
 
 // GET ALL BOOKS
-bookRoute
-  .route("/", cors(corsOptionsDelegate))
-  .get(async (req, res, next) => {
-    await BookModel.find()
-      .then((result) => {
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        return next(err);
-      });
-  });
+bookRoute.route("/", cors(corsOptionsDelegate)).get(async (req, res, next) => {
+  await BookModel.find()
+    .then((result) => {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result));
+    })
+    .catch((err) => {
+      return next(err);
+    });
+});
 
 /* GET SINGLE BOOK BY ID */
 bookRoute.route("/:id").get(async (req, res, next) => {
@@ -62,11 +64,10 @@ bookRoute.route("/").post(async (req, res, next) => {
     });
 });
 
-
 /* UPDATE BOOK */
 bookRoute.route("/:id").put(async (req, res, next) => {
-  await BookModel.findByIdAndUpdate(req.params.id, {
-    $set: req.body,
+  await BookModel.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
   })
     .then((result) => {
       res.json({

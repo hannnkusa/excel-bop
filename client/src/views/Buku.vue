@@ -105,7 +105,6 @@
 				modalVisible: false,
 				modalData: {},
 				isFetching: false,
-
 				modalExcelVisible: false,
 			}
 		},
@@ -119,6 +118,7 @@
 			},
 			toggleModal(val = false) {
 				this.modalVisible = val;
+				this.modalData = {}
 			},
 			toggleExcelModal(val = false) {
 				this.modalExcelVisible = val;
@@ -131,7 +131,6 @@
 				this.fetchBooksData()
 			},
 			editData(data) {
-				console.log({ data })
 				this.modalData = data
 			},
 		},

@@ -16,7 +16,8 @@
     "vue": "2.6.14",
     "vue-github-buttons": "^3.1.0",
     "vue-router": "3.5.2",
-    "vue-xlsx": "^0.2.1"
+    "vue-xlsx": "^0.2.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.5.13",

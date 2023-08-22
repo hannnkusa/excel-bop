@@ -100,6 +100,7 @@ export default {
     },
     watch: {
         isModalActive(val) {
+            this.resetFormValue()
             if (!val) return
             const dataEntries = Object.entries(this.dataToEdit)
             console.log('ke sini', dataEntries)
