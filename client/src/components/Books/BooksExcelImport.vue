@@ -1,25 +1,31 @@
 <template>
     <div>
         <a-modal v-model="isModalActiveLocal" title="Import Dari Excel" :width="1000">
-            <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+            <a-form-model :model="fileList" :label-col="labelCol" :wrapper-col="wrapperCol">
                 <h3>Import XLSX</h3>
-                <a-upload name="file" @before-upload="onChange" accept=".xls,.xlsx">
-                    <a-button> <a-icon type="upload" /> Click to Upload </a-button>
+                <a-upload :file-list="fileList" :remove="handleRemove" :before-upload="beforeUpload" accept=".xls,.xlsx" style="width: 100%">
+                    <a-button block> <a-icon type="upload" /> Select File </a-button>
                 </a-upload>
-                <xlsx-read :file="file">
-                    <!-- <xlsx-table class="vue-excel-table" /> -->
-                    <xlsx-json :options="{ header: 1 }">
+                <xlsx-read :file="fileList[0]" class="mt-10" v-if="fileList[0]">
+                    <xlsx-sheets>
+                        <template #default="{ sheets }">
+                            <a-select mode="multiple" placeholder="Pilih Sheet" style="width: 100%" v-model="selectedSheet" class="mt-10">
+                                <a-select-option v-for="sheet in sheets" :key="sheet">
+                                    {{ sheet }}
+                                </a-select-option>
+                            </a-select>
+                        </template>
+                    </xlsx-sheets>
+                    <xlsx-json :options="{ header: 1 }" v-for="(sheet, idx) in selectedSheet" :key="idx" :sheet="sheet">
                         <template #default="{ collection }">
-                            <a-row :gutter="16">
-                                <a-col class="gutter-row" :span="6">
-                                    Judul BOP :
+                            <a-row class="mt-10">
+                                <a-col :span="6">
+                                    <h5>Judul BOP :</h5>
                                 </a-col>
-                                <a-col class="gutter-row" :span="6">
-                                    {{ collection[0].join('') }}
+                                <a-col :span="6">
+                                    <h5>{{ collection[0].join('') }}</h5>
                                 </a-col>
                             </a-row>
-                            <div>
-                            </div>
                         </template>
                     </xlsx-json>
                 </xlsx-read>
@@ -51,17 +57,11 @@ export default {
     data() {
         return {
             loading: false,
-            labelCol: { span: 4 },
+            labelCol: { span: 2 },
             wrapperCol: { span: 14 },
             idToPut: '',
-            form: {
-                no: '',
-                judul: '',
-                penulis: '',
-                tahun_terbit: '',
-                penerbit: '',
-            },
-            file: null,
+            fileList: [],
+            selectedSheet: [],
         };
     },
     computed: {
@@ -77,8 +77,15 @@ export default {
         },
     },
     methods: {
-        onChange(event) {
-            this.file = event.target.files ? event.target.files[0] : null;
+        handleRemove(file) {
+            const index = this.fileList.indexOf(file);
+            const newFileList = this.fileList.slice();
+            newFileList.splice(index, 1);
+            this.fileList = newFileList;
+        },
+        beforeUpload(file) {
+            this.fileList = [...this.fileList, file];
+            console.log(this.fileList)
             return false;
         },
         showModal() {
@@ -100,13 +107,7 @@ export default {
             this.$emit("closeModal");
         },
         resetFormValue() {
-            this.form = {
-                no: '',
-                judul: '',
-                penulis: '',
-                tahun_terbit: '',
-                penerbit: '',
-            }
+            this.file = null
         }
     },
     watch: {
