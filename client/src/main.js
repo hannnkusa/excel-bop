@@ -25,10 +25,12 @@ import axios from 'axios'
 import './scss/app.scss';
 import './plugins/vue-excel'
 
+window.global ||= window;
+
 Vue.use(Antd);
 
 Vue.prototype.$axios = axios.create({
-  baseURL: process.env.VUE_BASE_URL || 'http://localhost:4000/api'
+  baseURL: 'http://localhost:4000/api'
 })
 
 Vue.config.productionTip = false
