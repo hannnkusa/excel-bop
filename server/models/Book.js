@@ -1,25 +1,40 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-let bookSchema = new Schema({
+const mongoose = require("mongoose");
+
+const bookSchema = mongoose.model("books", {
   no: {
-    type: String
+    type: String,
+    required: true,
   },
   judul: {
-    type: String
+    type: String,
+    required: true,
   },
   penulis: {
-    type: String
+    type: String,
+    required: true,
   },
   tahun_terbit: {
-    type: String
+    type: String,
+    required: true,
   },
   penerbit: {
-    type: String
+    type: String,
+    required: true,
   },
   created_from: {
-    type: String
+    type: String,
   },
-}, {
-  collection: 'books'
-})
-module.exports = mongoose.model('Book', bookSchema)
+  timestamp: {
+    created_at: {
+      type: Date,
+      default: Date.now,
+    },
+    updated_at: {
+      type: Date,
+      default: Date.now,
+    },
+    deleted_at: Date,
+  },
+});
+
+module.exports = bookSchema;
